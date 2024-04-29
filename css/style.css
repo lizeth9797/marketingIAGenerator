@@ -1,0 +1,401 @@
+:root{
+    --roboto-mono: "Roboto Mono", monospace;
+    ---page-title: 50px;
+    --title: 24px;
+    --subtitle:20px;
+    --text: 16px;
+    --small-text: 14px;
+    --light: 400;
+    --normal: 500;
+    --bold: 700;
+
+    --yellow: #FDFFC2;
+    --pink: #FF76CE;
+    --green-light: #94FFD8;
+    --blue-light: #A3D8FF;
+    --blue: #83c8f9;
+    --gray: #3c4449;
+    --gray-light: #69757d;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: var(--yellow);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+header {
+    height: 50px;
+    width: 100%;
+    background-color: var(--yellow);
+}
+
+footer {
+    height: 50px;
+    width: 100%;
+    background-color: var(--yellow);
+}
+
+main {
+    height: auto;
+    width: 100%;
+    padding: 0 10%;
+    background-color: var(--yellow);
+    font-family: var(--roboto-mono);
+    font-weight: var(--normal);
+    color: var(--gray);
+}
+
+main section h1 {
+    font-size: var(---page-title);
+    font-weight: var(--bold);
+}
+
+main section p{
+    font-size: var(--text);
+    font-weight: var(--normal);
+}
+
+#inputData{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--blue-light);
+    border-radius: 10px;
+    padding: 10px 0;
+}
+
+#inputData div h3{
+    font-size: var(--subtitle);
+    font-weight: var(--bold);
+    margin-left: 20px;
+}
+
+#inputData form{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 20px 0;
+    padding: 0;
+}
+
+#inputData form .firsSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 65%;
+    padding: 0 20px;
+}
+
+#inputData form .secondSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 35%;
+    padding: 0 20px;
+}
+
+#partImage {
+    margin-bottom: 20px;
+}
+
+#loadImage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 250px;
+    border: 4px dashed var(--green-light);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#loadImage:hover {
+    border-color: var(--pink);
+}
+
+#loadImage .iconPlus {
+    width: 30px;
+    height: 30px;
+    fill: var(--green-light);
+}
+
+#loadImage:hover .iconPlus {
+    fill: var(--pink);
+}
+
+#loadImage .highlightGreen{
+    font-size: var(--subtitle);
+    font-weight: var(--bold);
+    color: var(--green-light);
+}
+
+#loadImage:hover .highlightGreen{
+    color: var(--pink);
+}
+
+#loadImage .textDescription {
+    font-size: var(--small-text);
+    font-weight: var(--bold);
+    color: var(--gray-light);
+}
+
+#loadImage .alertText {
+    display: none;
+    font-size: var(--text);
+    font-weight: var(--bold);
+    color: red;
+}
+
+#contentImage {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 250px;
+    margin: 0;
+    padding: 10px;
+    border: 2px solid var(--green-light);
+    border-radius: 10px;
+    position: relative;
+}
+
+#cancelImage {
+    width: 30px;
+    height: 30px;
+    fill: var(--green-light);
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#cancelImage:hover {
+    fill: var(--pink);
+}
+
+#imagePreview {
+    width: 100%;
+}
+
+#partTarget {
+    display: flex;
+    flex-direction: column;
+}
+
+#partTarget > div{
+    height: 100px;
+    border: 2px solid var(--green-light);
+    border-radius: 10px;
+}
+
+#partTarget #inpTarget{
+    width: 80%;
+    margin: 0px;
+    padding-left: 5px;
+    background: transparent;
+    border: 2px var(--green-light);
+    border-style: none none solid none;
+    border-radius: 10px 0px 0px 0px;
+    font-family: var(--roboto-mono);
+    font-size: var(--small-text);
+    font-weight: var(--bold);
+    color: var(--gray);
+}
+
+#partTarget #inpTarget::placeholder{
+    font-family: var(--roboto-mono);
+    font-size: var(--small-text);
+    font-weight: var(--normal);
+}
+
+#partTarget #inpTarget:focus,
+#partTarget #inpTarget:hover {
+    outline: none;
+    border-color: var(--pink);
+    border-style: solid none solid solid;
+}
+
+#partTarget #addTargetBtn{
+    width: 20%;
+    margin: 0;
+    background: transparent;
+    border: 2px var(--green-light);
+    border-style: none none solid none;
+    border-radius: 0px 10px 0px 0px;
+    color: var(--green-light);
+    font-family: var(--roboto-mono);
+    font-size: var(--text);
+    font-weight: var(--bold);
+}
+
+#partTarget #inpTarget:focus ~ #addTargetBtn,
+#partTarget #inpTarget:hover ~ #addTargetBtn{
+    border: 2px var(--pink);
+    border-style: solid solid solid none;
+}
+
+#partTarget #addTargetBtn:hover{
+    color: var(--pink);
+}
+
+.targetCard {
+    display: inline-block;
+    color: var(--green-light);
+    border: 2px solid var(--green-light);
+    border-radius: 10px;
+    padding: 2px 6px;
+    margin: 5px;
+}
+
+.targetCard span {
+    font-family: var(--roboto-mono);
+    color: var(--gray);
+}
+
+.targetCard span i {
+    color: var(--green-light);
+    cursor: pointer;
+}
+
+.targetCard span i:hover {
+    color: var(--pink);
+}
+
+#inputData form .secondSection .divAge {
+    display: flex;
+    flex-direction: column;
+}
+
+#inputData form .secondSection .divAge div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#inputData form .secondSection .divAge div input{
+    width: 50px;
+    height: 20px;
+    font-family: var(--roboto-mono);
+    font-size: var(--text);
+    text-align: end;
+    margin-left: 5px;
+    padding-left: 4px;
+    background: transparent;
+    border-radius: 5px;
+    border: 2px solid var(--green-light);
+    color: var(--gray);
+}
+
+#inputData form .secondSection .divAge div input:focus,
+#inputData form .secondSection .divAge div input:hover{
+    outline: none;
+    border-color: var(--pink);
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+#inputData form .secondSection .divWriteTone {
+    display: flex;
+    flex-direction: column;
+}
+
+#inputData form .secondSection .divWriteTone select {
+    width: 200px;
+    font-family: var(--roboto-mono);
+    font-size: var(--text);
+    color: var(--gray);
+    background: var(--blue-light);
+    border-radius: 5px;
+    border: 2px solid var(--green-light);
+}
+
+#inputData form .secondSection .divWriteTone select:focus,
+#inputData form .secondSection .divWriteTone select:hover{
+    outline: none;
+    border: 2px solid var(--pink);
+}
+
+#inputData form .secondSection .divNumWords input {
+    width: 70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    font-family: var(--roboto-mono);
+    font-size: var(--text);
+    text-align: end;
+    color: var(--gray);
+    background: var(--blue-light);
+    border-radius: 5px;
+    border: 2px solid var(--green-light);
+}
+
+#inputData form .secondSection .divNumWords input:focus,
+#inputData form .secondSection .divNumWords input:hover{
+    outline: none;
+    border: 2px solid var(--pink);
+}
+
+#inputData .sendData {
+    width: 240px;
+    height: 40px;
+    background: var(--green-light);
+    border-radius: 10px;
+    border: 1px solid var(--green-light);
+    font-family: var(--roboto-mono);
+    font-size: var(--text);
+    color: var(--gray);
+    transition: all .5s;
+}
+
+#inputData .sendData:hover{
+    background: var(--pink);
+    border: 1px solid var(--pink);
+    width: 245px;
+    height: 45px;
+}
+
+@media (max-width:775px){
+    #inputData form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin: 20px 0;
+        padding: 0;
+    }
+
+    #inputData form .firsSection{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 0 20px;
+    }
+    
+    #inputData form .secondSection{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        width: 100%;
+        padding: 0 20px;
+    }
+}

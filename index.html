@@ -6,12 +6,110 @@
     <title>Document</title>
     <link rel="stylesheet" href="./css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header></header>
-    <div>
-    </div>
-    <footer></footer>
+    <main>
+        <section>
+            <h1>Marketing IA Generator</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum dignissimos unde in laboriosam sequi 
+                pariatur cupiditate, laudantium eligendi vero corrupti iusto suscipit qui quod consequatur!
+            </p>
+        </section>
+        <section id="inputData">
+            <div class="col-12">
+                <h3>Lorem, ipsum dolor...</h3>
+            </div>
+            <form>
+                <section class="firsSection">
+                    <div id="partImage">
+                        <div id="loadImage">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="iconPlus" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                            </svg>
+                            <span class="highlightGreen">Select Image</span>
+                            <span class="textDescription">JPEG, PNG  files less than 20MB</span>
+                            <span class="alertText">Please upload an image</span>
+                        </div>
+                        <input style="display: none;" type="file" accept="image/png, image/jpeg" id="inpImage" size="20971520">
+                        <div id="contentImage" style="display: none;">
+                            <img id="imagePreview" src="#" alt="Preview">
+                            <svg xmlns="http://www.w3.org/2000/svg" id="cancelImage" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="partTarget">
+                        <label>Target</label>
+                        <div>
+                            <div class="d-flex">
+                                <input type="text" id="inpTarget" placeholder="Write target">
+                                <button type="button" id="addTargetBtn">Add</button>
+                            </div>
+                            <div id="contentTarget"></div>
+                        </div>
+                    </div>
+                </section>
+                <section class="secondSection">
+                    <div class="divAge">
+                        <label>Age range</label>
+                        <div>
+                            <div>
+                                <label for="minAge">Min</label>
+                                <input type="number" name="ageRange" id="minAge" min="1" max="100" value="1">
+                            </div>
+                            <div>
+                                <label for="maxAge">Max</label>
+                                <input type="number" name="ageRange" id="maxAge" min="1" max="100" value="100">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divWriteTone">
+                        <label for="writeTone">Writing tone</label>
+                        <select id="writeTone" style="max-height: 50px; overflow-y: auto;">
+                            <option value="formal" selected>Formal</option>
+                            <option value="friendly">Friendly</option>
+                            <option value="casual">Casual</option>
+                            <option value="professional">Professional</option>
+                            <option value="diplomatic">Diplomatic</option>
+                            <option value="confident">Confident</option>
+                            <option value="academic">Academic</option>
+                            <option value="simplified">Simplified</option>
+                            <option value="bold">Bold</option>
+                            <option value="empathetic">Empathetic</option>
+                            <option value="luxury">Luxury</option>
+                            <option value="engaging">Engaging</option>
+                            <option value="persuasive">Persuasive</option>
+                          </select>
+                    </div>
+                    <div class="divNumWords">
+                        <label for="nWords">Number of words </label>
+                        <input type="number" id="nWords">
+                    </div>
+                </section>
+            </form>
+            <div class="d-flex col-12 justify-content-center">
+                <button type="button" class="sendData">Generate Description</button>
+            </div>
+        </section>
+        <section id="outputData">
+            <div id="contentResults">
+                <div class="cardResult">
+                    
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+
+    </footer>
     <script src="./js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

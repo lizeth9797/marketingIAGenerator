@@ -17,13 +17,13 @@
     <main>
         <section>
             <h1>Marketing IA Generator</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum dignissimos unde in laboriosam sequi 
-                pariatur cupiditate, laudantium eligendi vero corrupti iusto suscipit qui quod consequatur!
+            <p>Utilize Gemini AI for tailored marketing descriptions, ensuring precise vocabulary, 
+                tone, and targeted messaging, simplifying ad creation effortlessly.
             </p>
         </section>
         <section id="inputData">
             <div class="col-12">
-                <h3>Lorem, ipsum dolor...</h3>
+                <h3>Tell us about this product</h3>
             </div>
             <form>
                 <section class="firsSection">
@@ -35,7 +35,7 @@
                             </svg>
                             <span class="highlightGreen">Select Image</span>
                             <span class="textDescription">JPEG, PNG  files less than 20MB</span>
-                            <span class="alertText">Please upload an image</span>
+                            <span class="alertText" id="alertImage" style="display: none;">Please upload an image</span>
                         </div>
                         <input style="display: none;" type="file" accept="image/png, image/jpeg" id="inpImage" size="20971520">
                         <div id="contentImage" style="display: none;">
@@ -52,7 +52,9 @@
                                 <input type="text" id="inpTarget" placeholder="Write target">
                                 <button type="button" id="addTargetBtn">Add</button>
                             </div>
-                            <div id="contentTarget"></div>
+                            <div id="contentTarget">
+                                <span class="alertText" id="alertTarget" style="display: none;">Please enter a target</span>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -69,6 +71,7 @@
                                 <input type="number" name="ageRange" id="maxAge" min="1" max="100" value="100">
                             </div>
                         </div>
+                        <span class="alertText" id="alertRangeAge" style="display: none;"></span>
                     </div>
                     <div class="divWriteTone">
                         <label for="writeTone">Writing tone</label>
@@ -89,77 +92,40 @@
                           </select>
                     </div>
                     <div class="divNumWords">
-                        <label for="nWords">Number of words </label>
+                        <label for="nWords">Number of words <span>(optinal)</span> </label>
                         <input type="number" id="nWords">
                     </div>
                 </section>
             </form>
-            <div class="d-flex col-12 justify-content-center">
-                <button type="button" class="sendData">Generate Description</button>
+            <div>
+                <button type="button" class="sendData" id="sendData" >Generate Description</button>
             </div>
         </section>
-        <section id="outputData">
-                <div class="cardResult">
-                    <div class="headerCard">
-                        <span>150 words</span>
-                        <span>Formal</span>
-                        <span class="close"><i class="bi bi-x-lg"></i></span>
-                    </div>
-                    <div class="bodyCard">
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit porro exercitationem 
-                            praesentium, impedit quasi nihil totam sapiente? Dolore architecto, nam sunt velit esse beatae 
-                            voluptatibus distinctio, quam nobis illo doloremque possimus. Cupiditate odit veritatis sed nam 
-                            explicabo. Porro blanditiis deserunt adipisci iusto facere, reprehenderit atque hic fuga vel 
-                            facilis ex in corporis. Voluptates natus nisi at facere tempora aperiam pariatur iusto, in 
-                            perspiciatis exercitationem, placeat labore consequuntur sint, hic nemo magni? Ut ipsum illo quas 
-                            veniam rerum ab sapiente perspiciatis! Nostrum molestias cumque autem quasi eos impedit dolorem 
-                            molestiae rerum quod. Sit beatae quod repudiandae tempora, dolor culpa earum aliquam perspiciatis 
-                            libero maiores quae similique debitis labore voluptas quia adipisci, maxime magni quas explicabo 
-                            id! Minima recusandae necessitatibus harum aut. Dolorum fuga deserunt ullam necessitatibus itaque 
-                            odio obcaecati, temporibus molestias culpa provident minus possimus! Officia dolor cupiditate 
-                            temporibus! Assumenda laudantium iure ad unde dolor? Labore laudantium deleniti rerum consectetur 
-                            repudiandae.
-                        </p>
-                    </div>
-                    <div class="footerCard">
-                        <span><i class="bi bi-files"></i> Copy</span>
-                        <span><i class="bi bi-save2"></i> Save</span>
-                    </div>
-                </div>
-                <div class="cardResult">
-                    <div class="headerCard">
-                        <span>150 words</span>
-                        <span>Formal</span>
-                        <span class="close"><i class="bi bi-x-lg"></i></span>
-                    </div>
-                    <div class="bodyCard">
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit porro exercitationem 
-                            praesentium, impedit quasi nihil totam sapiente? Dolore architecto, nam sunt velit esse beatae 
-                            voluptatibus distinctio, quam nobis illo doloremque possimus. Cupiditate odit veritatis sed nam 
-                            explicabo. Porro blanditiis deserunt adipisci iusto facere, reprehenderit atque hic fuga vel 
-                            facilis ex in corporis. Voluptates natus nisi at facere tempora aperiam pariatur iusto, in 
-                            perspiciatis exercitationem, placeat labore consequuntur sint, hic nemo magni? Ut ipsum illo quas 
-                            veniam rerum ab sapiente perspiciatis! Nostrum molestias cumque autem quasi eos impedit dolorem 
-                            molestiae rerum quod. Sit beatae quod repudiandae tempora, dolor culpa earum aliquam perspiciatis 
-                            libero maiores quae similique debitis labore voluptas quia adipisci, maxime magni quas explicabo 
-                            id! Minima recusandae necessitatibus harum aut. Dolorum fuga deserunt ullam necessitatibus itaque 
-                            odio obcaecati, temporibus molestias culpa provident minus possimus! Officia dolor cupiditate 
-                            temporibus! Assumenda laudantium iure ad unde dolor? Labore laudantium deleniti rerum consectetur 
-                            repudiandae.
-                        </p>
-                    </div>
-                    <div class="footerCard">
-                        <span><i class="bi bi-files"></i> Copy</span>
-                        <span><i class="bi bi-save2"></i> Save</span>
-                    </div>
-                </div>
+        <section id="outputData" style="display: none;">
         </section>
     </main>
     <footer>
-
+        <div>
+            <span class="name">Karina Lizeth Muñoz</span>
+            <a class="redes" href="https://github.com/lizeth9797" target="_blank"><i class="bi bi-github"></i></a>
+            <a class="redes" href="https://www.linkedin.com/in/karinalom/" target="_blank"><i class="bi bi-linkedin"></i></a>
+        </div>
+        <div>
+            <span class="name">Ollincatl Jiménez</span>
+            <a class="redes" href="https://github.com/OllincatlJmnz" target="_blank"><i class="bi bi-github"></i></a>
+            <a class="redes" href="www.linkedin.com/in/ollincatl-jmnz" target="_blank"><i class="bi bi-linkedin"></i></a>
+        </div>
     </footer>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast align-items-center bg-info text-dark" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+              <div class="toast-body">
+                copied
+              </div>
+              <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+          </div>
+    </div>
     <script src="./js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

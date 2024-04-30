@@ -36,6 +36,50 @@ inpImage.addEventListener("change",function(event){
     reader.readAsDataURL(prevImage);
 })
 
+function convertImageToBase64(file) {
+    return new Promise((resolve, reject) => {
+        if (!file) {
+            reject("No se proporcionó ningún archivo.");
+        }
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            let base64Image = e.target.result;
+            resolve(base64Image); 
+        }
+        reader.onerror = function(e) {
+            reject("Error al leer el archivo.");
+        }
+        reader.readAsDataURL(file);
+    });
+}
+
+function imprimirValorBase64() {
+
+/*     convertImageToBase64(inpImage.files[0])
+        .then(() => {
+            imgb64;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+ */
+
+        convertImageToBase64(inpImage.files[0])
+        .then(base64Image => {
+            let imgb64 = base64Image; // Asignar el valor en base64 a la variable global
+            // Puedes usar imgb64 aquí o en cualquier otra función
+            //console.log(imgb64); // Por ejemplo, imprimir el valor en consola
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+async function running() {
+    const base64Imagee = await convertImageToBase64(inpImage.files[0]);
+    return base64Imagee;
+}
+
 cancelImage.addEventListener("click", function(event){
     event.preventDefault();
     loadImage.style.display = "flex";
@@ -147,10 +191,11 @@ document.addEventListener("click", function(event) {
 });
 
 
-btnSendData.addEventListener("click", function(event){
+/* btnSendDataa.addEventListener("click", async function(event){
     event.preventDefault();
     let isValid = true;
-
+    let k= await running();
+    console.log(k);
     if(minAge.value == "" || maxAge.value == ""){
         alertRangeAge.innerHTML="";
         alertRangeAge.insertAdjacentHTML("beforeend","Please enter an age range");
@@ -212,3 +257,4 @@ btnSendData.addEventListener("click", function(event){
         outputData.style.display="flex";
     }
 })
+ */

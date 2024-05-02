@@ -252,7 +252,7 @@ btnSendData.addEventListener("click", async function(event){
 
 
 const MODEL_NAME = "gemini-1.0-pro-vision-latest";
-const API_KEY = "AIzaSyC3cj7PGgtDpmnVKgropqVQLTtiqrzUGlw";
+const API_KEY = "";
 
 // Converts a File object to a GoogleGenerativeAI.Part object.
 async function fileToGenerativePart(file) {

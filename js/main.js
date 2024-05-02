@@ -1,3 +1,4 @@
+import { GoogleGenerativeAI,HarmCategory, HarmBlockThreshold} from "@google/generative-ai";
 let loadImage = document.getElementById("loadImage");
 let inpImage = document.getElementById("inpImage");
 let contentImage = document.getElementById("contentImage");
@@ -36,6 +37,7 @@ inpImage.addEventListener("change",function(event){
     reader.readAsDataURL(prevImage);
 })
 
+/*
 function convertImageToBase64(file) {
     return new Promise((resolve, reject) => {
         if (!file) {
@@ -54,21 +56,9 @@ function convertImageToBase64(file) {
 }
 
 function imprimirValorBase64() {
-
-/*     convertImageToBase64(inpImage.files[0])
-        .then(() => {
-            imgb64;
-        })
-        .catch(error => {
-            console.error(error);
-        });
- */
-
         convertImageToBase64(inpImage.files[0])
         .then(base64Image => {
-            let imgb64 = base64Image; // Asignar el valor en base64 a la variable global
-            // Puedes usar imgb64 aquí o en cualquier otra función
-            //console.log(imgb64); // Por ejemplo, imprimir el valor en consola
+            let imgb64 = base64Image;
         })
         .catch(error => {
             console.error(error);
@@ -79,6 +69,7 @@ async function running() {
     const base64Imagee = await convertImageToBase64(inpImage.files[0]);
     return base64Imagee;
 }
+*/
 
 cancelImage.addEventListener("click", function(event){
     event.preventDefault();
@@ -191,11 +182,9 @@ document.addEventListener("click", function(event) {
 });
 
 
-/* btnSendDataa.addEventListener("click", async function(event){
+btnSendData.addEventListener("click", async function(event){
     event.preventDefault();
     let isValid = true;
-    let k= await running();
-    console.log(k);
     if(minAge.value == "" || maxAge.value == ""){
         alertRangeAge.innerHTML="";
         alertRangeAge.insertAdjacentHTML("beforeend","Please enter an age range");
@@ -223,7 +212,7 @@ document.addEventListener("click", function(event) {
         alertImage.style.display = "none";
     }
 
-    if(isValid){
+    if(true){
         outputData.insertAdjacentHTML("afterbegin",`
                 <div class="cardResult">
                     <div class="headerCard">
@@ -255,6 +244,84 @@ document.addEventListener("click", function(event) {
                 </div>
         `)
         outputData.style.display="flex";
+
+        run();
     }
 })
- */
+
+
+
+const MODEL_NAME = "gemini-1.0-pro-vision-latest";
+const API_KEY = "AIzaSyC3cj7PGgtDpmnVKgropqVQLTtiqrzUGlw";
+
+// Converts a File object to a GoogleGenerativeAI.Part object.
+async function fileToGenerativePart(file) {
+  const base64EncodedDataPromise = new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result.split(',')[1]);
+    reader.readAsDataURL(file);
+  });
+  return {
+    inlineData: { data: await base64EncodedDataPromise, mimeType: file.type },
+  };
+}
+
+var target='women at university';
+var writingTone='religious';
+var age='20-29';
+var numberWords='30';
+
+
+async function run() {
+    const genAI = new GoogleGenerativeAI(API_KEY);
+    const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+    const fileInputEl = document.querySelector("input[type=file]");
+    const file = fileInputEl.files[0];
+    const imageParts = await fileToGenerativePart(file);
+    //console.log(imageParts.inlineData.data);
+    const generationConfig = {
+        temperature: 0.9,
+        topK: 40,
+        topP: 0.95,
+        maxOutputTokens: 1024,
+    };
+  const safetySettings = [
+    {
+      category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+  ];
+
+  const parts = [
+    {text: "Given an image of a product and its target audience, write an engaging marketing description"},
+    {text: `Target Audience: ${target}`},
+    {text: `Writing tone: ${writingTone}`},
+    {text: `Age: ${age}`},
+    {text: `Number of words: ${numberWords}`},
+    {
+      inlineData: {
+        mimeType: "image/jpeg",
+        data: imageParts.inlineData.data
+      }
+    },
+  ];
+  const result = await model.generateContent({
+    contents: [{ role: "user", parts }],
+    generationConfig,
+    safetySettings,
+  });
+  const response = result.response;
+  console.log(response.text());
+}

@@ -1,10 +1,8 @@
 
 import { GoogleGenerativeAI,HarmCategory, HarmBlockThreshold} from "@google/generative-ai";
 
-
-//const MODEL_NAME = "gemini-1.5-pro-latest";
 const MODEL_NAME = "gemini-1.0-pro-vision-latest";
-const API_KEY = "";
+const API_KEY = "AIzaSyC3cj7PGgtDpmnVKgropqVQLTtiqrzUGlw";
 
 // Converts a File object to a GoogleGenerativeAI.Part object.
 async function fileToGenerativePart(file) {
@@ -19,24 +17,18 @@ async function fileToGenerativePart(file) {
 }
 
 async function run() {
-
     const genAI = new GoogleGenerativeAI(API_KEY);
     const model = genAI.getGenerativeModel({ model: MODEL_NAME });
     const fileInputEl = document.querySelector("input[type=file]");
     const file = fileInputEl.files[0];
-    /* const imageParts = await Promise.all(
-      [...fileInputEl.files].map(fileToGenerativePart)
-    ); */
-    const imageParts = await fileToGenerativePart(file); // Process only one file
-    console.log(imageParts.inlineData.data);
-
+    const imageParts = await fileToGenerativePart(file);
+    //console.log(imageParts.inlineData.data);
     const generationConfig = {
         temperature: 0.9,
         topK: 40,
         topP: 0.95,
         maxOutputTokens: 1024,
     };
-
   const safetySettings = [
     {
       category: HarmCategory.HARM_CATEGORY_HARASSMENT,
@@ -69,13 +61,11 @@ async function run() {
       }
     },
   ];
-
   const result = await model.generateContent({
     contents: [{ role: "user", parts }],
     generationConfig,
     safetySettings,
   });
-
   const response = result.response;
   console.log(response.text());
 }

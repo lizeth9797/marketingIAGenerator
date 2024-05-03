@@ -14,6 +14,8 @@ let alertRangeAge = document.getElementById("alertRangeAge");
 let minAge = document.getElementById("minAge");
 let maxAge = document.getElementById("maxAge");
 let outputData = document.getElementById("outputData");
+let numberWords=document.getElementById("nWords");
+let writingTone=document.getElementById("writeTone");
 let targetList = [];
 let prevImage = null;
 const toastLiveExample = document.getElementById('liveToast')
@@ -26,50 +28,14 @@ loadImage.addEventListener("click",function(event){
 inpImage.addEventListener("change",function(event){
     event.preventDefault();
     let reader = new FileReader();
-
     reader.onload = function(e) {
         contentImage.style.display = "flex";
         loadImage.style.display = "none"
         imagePreview.setAttribute('src', e.target.result);
     }
-
     prevImage = inpImage.files[0];
     reader.readAsDataURL(prevImage);
 })
-
-/*
-function convertImageToBase64(file) {
-    return new Promise((resolve, reject) => {
-        if (!file) {
-            reject("No se proporcionó ningún archivo.");
-        }
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            let base64Image = e.target.result;
-            resolve(base64Image); 
-        }
-        reader.onerror = function(e) {
-            reject("Error al leer el archivo.");
-        }
-        reader.readAsDataURL(file);
-    });
-}
-
-function imprimirValorBase64() {
-        convertImageToBase64(inpImage.files[0])
-        .then(base64Image => {
-            let imgb64 = base64Image;
-        })
-        .catch(error => {
-            console.error(error);
-        });
-}
-
-async function running() {
-    const base64Imagee = await convertImageToBase64(inpImage.files[0]);
-    return base64Imagee;
-}
-*/
 
 cancelImage.addEventListener("click", function(event){
     event.preventDefault();
@@ -181,6 +147,12 @@ document.addEventListener("click", function(event) {
     }
 });
 
+function countWords(str) {
+    /*str=str.trim();
+    const words = str.split(/\s+/);
+    return words.length;*/
+    return str.trim().split(/\s+/).length;
+}
 
 btnSendData.addEventListener("click", async function(event){
     event.preventDefault();
@@ -212,29 +184,23 @@ btnSendData.addEventListener("click", async function(event){
         alertImage.style.display = "none";
     }
 
-    if(true){
+    if(isValid){
+        //console.log(`target: ${targetList}`);
+        //console.log('numberWords: ',numberWords.value);
+        //console.log('writingTone',writingTone.value);
+        //console.log(`${minAge.value}-${maxAge.value}`);
+        let addGenerated= await run();
+
         outputData.insertAdjacentHTML("afterbegin",`
                 <div class="cardResult">
                     <div class="headerCard">
-                        <span>150 words</span>
-                        <span>Formal</span>
+                        <span>${countWords(addGenerated)}</span>
+                        <span>${writingTone.value}</span>
                         <span class="close"><i class="bi bi-x-lg"></i></span>
                     </div>
                     <div class="bodyCard">
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit porro exercitationem 
-                            praesentium, impedit quasi nihil totam sapiente? Dolore architecto, nam sunt velit esse beatae 
-                            voluptatibus distinctio, quam nobis illo doloremque possimus. Cupiditate odit veritatis sed nam 
-                            explicabo. Porro blanditiis deserunt adipisci iusto facere, reprehenderit atque hic fuga vel 
-                            facilis ex in corporis. Voluptates natus nisi at facere tempora aperiam pariatur iusto, in 
-                            perspiciatis exercitationem, placeat labore consequuntur sint, hic nemo magni? Ut ipsum illo quas 
-                            veniam rerum ab sapiente perspiciatis! Nostrum molestias cumque autem quasi eos impedit dolorem 
-                            molestiae rerum quod. Sit beatae quod repudiandae tempora, dolor culpa earum aliquam perspiciatis 
-                            libero maiores quae similique debitis labore voluptas quia adipisci, maxime magni quas explicabo 
-                            id! Minima recusandae necessitatibus harum aut. Dolorum fuga deserunt ullam necessitatibus itaque 
-                            odio obcaecati, temporibus molestias culpa provident minus possimus! Officia dolor cupiditate 
-                            temporibus! Assumenda laudantium iure ad unde dolor? Labore laudantium deleniti rerum consectetur 
-                            repudiandae.
+                            ${addGenerated}
                         </p>
                     </div>
                     <div class="footerCard">
@@ -244,8 +210,6 @@ btnSendData.addEventListener("click", async function(event){
                 </div>
         `)
         outputData.style.display="flex";
-
-        run();
     }
 })
 
@@ -265,12 +229,6 @@ async function fileToGenerativePart(file) {
     inlineData: { data: await base64EncodedDataPromise, mimeType: file.type },
   };
 }
-
-var target='women at university';
-var writingTone='religious';
-var age='20-29';
-var numberWords='30';
-
 
 async function run() {
     const genAI = new GoogleGenerativeAI(API_KEY);
@@ -305,11 +263,11 @@ async function run() {
   ];
 
   const parts = [
-    {text: "Given an image of a product and its target audience, write an engaging marketing description"},
-    {text: `Target Audience: ${target}`},
-    {text: `Writing tone: ${writingTone}`},
-    {text: `Age: ${age}`},
-    {text: `Number of words: ${numberWords}`},
+    {text: "Given an image of a product and its target audience, writing tone,age range and number of words, write an engaging marketing description"},
+    {text: `Target Audience: ${targetList}`},
+    {text: `Writing tone: ${writingTone.value}`},
+    {text: `Age range: ${minAge.value}-${maxAge.value}`},
+    {text: `Number of words: ${numberWords.value}`},
     {
       inlineData: {
         mimeType: "image/jpeg",
@@ -323,5 +281,5 @@ async function run() {
     safetySettings,
   });
   const response = result.response;
-  console.log(response.text());
+  return response.text();
 }

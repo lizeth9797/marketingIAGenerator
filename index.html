@@ -92,7 +92,7 @@
                           </select>
                     </div>
                     <div class="divNumWords">
-                        <label for="nWords">Number of words <span>(optinal)</span> </label>
+                        <label for="nWords">Minimum number of words <span>(optinal)</span> </label>
                         <input type="number" id="nWords">
                     </div>
                 </section>
@@ -106,7 +106,7 @@
     </main>
     <footer>
         <div>
-            <span class="name">Karina Lizeth Muñoz</span>
+            <span class="name">Karina Muñoz</span>
             <a class="redes" href="https://github.com/lizeth9797" target="_blank"><i class="bi bi-github"></i></a>
             <a class="redes" href="https://www.linkedin.com/in/karinalom/" target="_blank"><i class="bi bi-linkedin"></i></a>
         </div>
@@ -126,7 +126,15 @@
             </div>
           </div>
     </div>
-    <script src="./js/main.js"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
+    <script type="importmap">
+        {
+        "imports": {
+            "@google/generative-ai": "https://esm.run/@google/generative-ai"
+        }
+        }
+    </script>
+    <script type="module" src="./js/main.js"></script>
+    </body>
 </html>

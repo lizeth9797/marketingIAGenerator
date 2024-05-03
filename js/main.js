@@ -1,3 +1,4 @@
+import { GoogleGenerativeAI,HarmCategory, HarmBlockThreshold} from "@google/generative-ai";
 let loadImage = document.getElementById("loadImage");
 let inpImage = document.getElementById("inpImage");
 let contentImage = document.getElementById("contentImage");
@@ -13,6 +14,8 @@ let alertRangeAge = document.getElementById("alertRangeAge");
 let minAge = document.getElementById("minAge");
 let maxAge = document.getElementById("maxAge");
 let outputData = document.getElementById("outputData");
+let numberWords=document.getElementById("nWords");
+let writingTone=document.getElementById("writeTone");
 let targetList = [];
 let prevImage = null;
 const toastLiveExample = document.getElementById('liveToast')
@@ -25,13 +28,11 @@ loadImage.addEventListener("click",function(event){
 inpImage.addEventListener("change",function(event){
     event.preventDefault();
     let reader = new FileReader();
-
     reader.onload = function(e) {
         contentImage.style.display = "flex";
         loadImage.style.display = "none"
         imagePreview.setAttribute('src', e.target.result);
     }
-
     prevImage = inpImage.files[0];
     reader.readAsDataURL(prevImage);
 })
@@ -146,11 +147,16 @@ document.addEventListener("click", function(event) {
     }
 });
 
+function countWords(str) {
+    /*str=str.trim();
+    const words = str.split(/\s+/);
+    return words.length;*/
+    return str.trim().split(/\s+/).length;
+}
 
-btnSendData.addEventListener("click", function(event){
+btnSendData.addEventListener("click", async function(event){
     event.preventDefault();
     let isValid = true;
-
     if(minAge.value == "" || maxAge.value == ""){
         alertRangeAge.innerHTML="";
         alertRangeAge.insertAdjacentHTML("beforeend","Please enter an age range");
@@ -179,28 +185,22 @@ btnSendData.addEventListener("click", function(event){
     }
 
     if(isValid){
+        //console.log(`target: ${targetList}`);
+        //console.log('numberWords: ',numberWords.value);
+        //console.log('writingTone',writingTone.value);
+        //console.log(`${minAge.value}-${maxAge.value}`);
+        let addGenerated= await run();
+
         outputData.insertAdjacentHTML("afterbegin",`
                 <div class="cardResult">
                     <div class="headerCard">
-                        <span>150 words</span>
-                        <span>Formal</span>
+                        <span>${countWords(addGenerated)}</span>
+                        <span>${writingTone.value}</span>
                         <span class="close"><i class="bi bi-x-lg"></i></span>
                     </div>
                     <div class="bodyCard">
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit porro exercitationem 
-                            praesentium, impedit quasi nihil totam sapiente? Dolore architecto, nam sunt velit esse beatae 
-                            voluptatibus distinctio, quam nobis illo doloremque possimus. Cupiditate odit veritatis sed nam 
-                            explicabo. Porro blanditiis deserunt adipisci iusto facere, reprehenderit atque hic fuga vel 
-                            facilis ex in corporis. Voluptates natus nisi at facere tempora aperiam pariatur iusto, in 
-                            perspiciatis exercitationem, placeat labore consequuntur sint, hic nemo magni? Ut ipsum illo quas 
-                            veniam rerum ab sapiente perspiciatis! Nostrum molestias cumque autem quasi eos impedit dolorem 
-                            molestiae rerum quod. Sit beatae quod repudiandae tempora, dolor culpa earum aliquam perspiciatis 
-                            libero maiores quae similique debitis labore voluptas quia adipisci, maxime magni quas explicabo 
-                            id! Minima recusandae necessitatibus harum aut. Dolorum fuga deserunt ullam necessitatibus itaque 
-                            odio obcaecati, temporibus molestias culpa provident minus possimus! Officia dolor cupiditate 
-                            temporibus! Assumenda laudantium iure ad unde dolor? Labore laudantium deleniti rerum consectetur 
-                            repudiandae.
+                            ${addGenerated}
                         </p>
                     </div>
                     <div class="footerCard">
@@ -212,3 +212,74 @@ btnSendData.addEventListener("click", function(event){
         outputData.style.display="flex";
     }
 })
+
+
+
+const MODEL_NAME = "gemini-1.0-pro-vision-latest";
+const API_KEY = "";
+
+// Converts a File object to a GoogleGenerativeAI.Part object.
+async function fileToGenerativePart(file) {
+  const base64EncodedDataPromise = new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result.split(',')[1]);
+    reader.readAsDataURL(file);
+  });
+  return {
+    inlineData: { data: await base64EncodedDataPromise, mimeType: file.type },
+  };
+}
+
+async function run() {
+    const genAI = new GoogleGenerativeAI(API_KEY);
+    const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+    const fileInputEl = document.querySelector("input[type=file]");
+    const file = fileInputEl.files[0];
+    const imageParts = await fileToGenerativePart(file);
+    //console.log(imageParts.inlineData.data);
+    const generationConfig = {
+        temperature: 0.9,
+        topK: 40,
+        topP: 0.95,
+        maxOutputTokens: 1024,
+    };
+  const safetySettings = [
+    {
+      category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+  ];
+
+  const parts = [
+    {text: "Given an image of a product and its target audience, writing tone,age range and number of words, write an engaging marketing description"},
+    {text: `Target Audience: ${targetList}`},
+    {text: `Writing tone: ${writingTone.value}`},
+    {text: `Age range: ${minAge.value}-${maxAge.value}`},
+    {text: `Number of words: ${numberWords.value}`},
+    {
+      inlineData: {
+        mimeType: "image/jpeg",
+        data: imageParts.inlineData.data
+      }
+    },
+  ];
+  const result = await model.generateContent({
+    contents: [{ role: "user", parts }],
+    generationConfig,
+    safetySettings,
+  });
+  const response = result.response;
+  return response.text();
+}
